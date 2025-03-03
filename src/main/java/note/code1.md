@@ -1,4 +1,4 @@
-# 题目
+# LeetCode_1：两数之和
 给定一个整数数组 `nums` 和一个整数目标值 `target`，请你在该数组中找出和为目标值 `target`  的那两个整数，并返回它们的数组下标。
 
 你可以假设每种输入只会对应一个答案，并且你不能使用两次相同的元素。
@@ -26,18 +26,18 @@
 
 # 提示
 
-`2 <= nums.length <= 104`  
-`-109 <= nums[i] <= 109`  
-`-109 <= target <= 109`  
-只会存在一个有效答案
+- `2 <= nums.length <= 104`  
+- `-109 <= nums[i] <= 109`  
+- `-109 <= target <= 109`  
+- 只会存在一个有效答案
  
 
 # 解答
-## 暴力枚举
+## 法1：暴力枚举
 外层找第一个数，内层找第二个数，依次比较找答案
 
 ```java
-class Solution {
+public class code1 {
     public int[] twoSum(int[] nums, int target) {
         int n = nums.length;
         for (int i = 0; i < n; ++i) {
@@ -53,7 +53,7 @@ class Solution {
 ```
 
 
-## 哈希表存储
+## 法2：哈希表存储
 哈希表存储上一个数`<value, index>`，一但找到另一个数符合就返回
 > 为什么存储的是`<value, index>`反过来的？因为这样才能根据value来返回对应的index
 > 那这样不会value重复吗？不可能！题目假设每种输入只会对应一个答案，如果重复说明这两个数必是答案，不会进入下一轮循环
