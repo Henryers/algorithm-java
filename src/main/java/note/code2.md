@@ -36,7 +36,7 @@
 ```java
 public class code2 {
     // ListNode 有 val、next 两个属性
-    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode dummyHead = new ListNode(0);
         ListNode res = dummyHead;
         int add1 = 0;

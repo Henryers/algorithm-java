@@ -32,7 +32,7 @@
 **双指针**：r一直++，l根据记录在map中的位置进行移动
 ```java
 public class code3 {
-    public static int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring(String s) {
         HashMap<Character, Integer> map = new HashMap<>();
         char[] str = s.toCharArray();
         int l = 0;
