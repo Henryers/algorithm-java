@@ -1,0 +1,101 @@
+# LeetCode_10：正则表达式匹配
+
+给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
+
+'.' 匹配任意单个字符  
+'*' 匹配零个或多个前面的那一个元素  
+所谓匹配，是要涵盖 整个 字符串 s 的，而不是部分字符串。
+
+# 示例
+**示例 1：**
+
+>输入：s = "aa", p = "a"  
+输出：false  
+解释："a" 无法匹配 "aa" 整个字符串。  
+
+**示例 2:**
+
+>输入：s = "aa", p = "a*"  
+输出：true  
+解释：因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 "aa" 可被视为 'a' 重复了一次。  
+
+**示例 3：**
+
+>输入：s = "ab", `p = ".*"`  
+输出：true   
+解释：`".*"` 表示可匹配零个或多个（'*'）任意字符（'.'）。
+
+
+# 提示
+
+- 1 <= s.length <= 20
+- 1 <= p.length <= 20
+- s 只包含从 a-z 的小写字母。
+- p 只包含从 a-z 的小写字母，以及字符 . 和 *。
+- 保证每次出现字符 * 时，前面都匹配到有效的字符
+
+# 解答
+左神[P38 40min](https://www.bilibili.com/video/BV13g41157hK?&p=37)
+```java
+public class code10 {
+    public boolean isMatch(String str, String exp) {
+        if (str == null || exp == null) {
+            return false;
+        }
+        char[] s = str.toCharArray();
+        char[] e = exp.toCharArray();
+        boolean[][] dp = initDPMap(s, e);
+        // 从右往左，整体从下往上
+        for (int i = s.length - 1; i > -1; i--) {
+            for (int j = e.length - 2; j > -1; j--) {
+                if (e[j + 1] != '*') {
+                    dp[i][j] = (s[i] == e[j] || e[j] == '.') && dp[i + 1][j + 1];
+                } else {
+                    int si = i;    // si++, 但dp中的i要 += 2, 所以要分开记录
+                    while (si != s.length && (s[si] == e[j] || e[j] == '.')) {
+                        if (dp[si][j + 2]) {
+                            dp[i][j] = true;
+                            break;
+                        }
+                        si++;  // 模拟*匹配的个数
+                    }
+                    dp[i][j] = dp[si][j + 2];    // while退出循环的最后一次情况会漏算，要补上
+                }
+            }
+        }
+        return dp[0][0];
+    }
+
+    // s = 5  e = 6 举例：
+    // 初始化需要最后一行和最后两列
+    // 最后两列只需要判断两个位置
+    // x x x x x  F  F
+    // x x x x x  F  F
+    // x x x x x  F  F
+    // x x x x x  F  F
+    // x x x x x T/F F
+    // T F T F T  F  T
+    // a * a * a  *
+    public static boolean[][] initDPMap(char[] s, char[] e) {
+        int slen = s.length;
+        int elen = e.length;
+        boolean[][] dp = new boolean[slen + 1][elen + 1];
+        // dp[s][e]含义： s[i, ...] (往后所有)，能不能被 e[j, ...] (往后所有)配出来
+        dp[slen][elen] = true;
+        for (int j = elen - 2; j > -1; j = j - 2) {
+            // e[j] != '*' && 其实可以去掉，因为题目保证了不可能连续出现两个*
+            if (e[j + 1] == '*') {
+                dp[slen][j] = true;  // 空串都能匹配成功
+            } else {
+                break;  // s[slen, ...]空串，但是e[]其中至少存在一个字符且不能被*消掉，无法匹配
+            }
+        }
+        if (slen > 0 && elen > 0) {
+            if ((e[elen - 1] == '.' || s[slen - 1] == e[elen - 1])) {
+                dp[slen - 1][elen - 1] = true;
+            }
+        }
+        return dp;
+    }
+}
+```
