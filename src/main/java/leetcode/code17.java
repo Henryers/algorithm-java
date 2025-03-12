@@ -5,7 +5,7 @@ import java.util.*;
 public class code17 {
     public List<String> letterCombinations(String digits) {
         List<String> combinations = new ArrayList<String>();
-        if (digits.length() == 0) {
+        if (digits.isEmpty()) {
             return combinations;
         }
         Map<Character, String> phoneMap = new HashMap<Character, String>() {{
