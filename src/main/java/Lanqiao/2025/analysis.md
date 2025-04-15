@@ -28,7 +28,7 @@ public class Main {
 public class Main {
 	public static void main(String[] args) {
 		long res = 0;
-		for (long N = 40490825; N < Long.MAX_VALUE; N += 20250412) {
+		for (long N = 20260411; N < Long.MAX_VALUE; N += 20250412) {
 			if ((N + 20250412) % 20240413 == 0) {
 				res = N;
 				break;
