@@ -7,12 +7,12 @@ public class code7 {
         int res = 0;
         while (abx > 0){
             int tmp = abx % 10;
-            // 先判断
-            if ((res > 214748364 && tmp > 7) || res > 214748365) return 0;
+            // 先判断，其实如果原先就是十位数，不管正负号，原先的最高位肯定是1或2
+            // 逆转后，原先的最高位到这里变成了最低位，这两个数都<=7，所以不用判断个位
+            if (res > 214748364) return 0;
             res = res * 10 + tmp;
             abx = abx / 10;
         }
-        if (res < 0) res = 0;
         res = flag * res;
         return res;
     }
